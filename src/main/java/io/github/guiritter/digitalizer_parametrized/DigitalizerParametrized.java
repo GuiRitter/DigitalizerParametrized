@@ -5,6 +5,7 @@ import javax.swing.plaf.basic.BasicArrowButton;
 import static io.github.guiritter.graphical_user_interface.LabelledComponentFactory.buildFileChooser;
 import static io.github.guiritter.graphical_user_interface.LabelledComponentFactory.buildLabelledComponent;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -68,6 +69,10 @@ public class DigitalizerParametrized {
 		} else {
 			file.set(null);
 		}
+	}
+
+	private static void testFormat(JFrame frame, JTextField outputFileNameFormatField, JSpinner outputFileNameIndexSpinner) {
+		showMessageDialog(frame, String.format(outputFileNameFormatField.getText(), outputFileNameIndexSpinner.getValue()), "Info", INFORMATION_MESSAGE);
 	}
 
 	private static void scanImage(AtomicReference<File> file, JFrame frame, JTextField outputFileNameFormatField, JSpinner outputFileNameIndexSpinner) {
@@ -144,6 +149,11 @@ public class DigitalizerParametrized {
 				SwingConstants.LEFT,
 				0
 		), buildGBC(y++, HALF_PADDING, HALF_PADDING));
+
+		var testButton = new JButton("Test Format");
+		testButton.addActionListener((ActionEvent event) -> testFormat(frame, outputFileNameFormatField, outputFileNameIndexSpinner));
+
+		frame.getContentPane().add(testButton, buildGBC(y++, HALF_PADDING, HALF_PADDING));
 
 		wia4j = new Wia4j();
 
