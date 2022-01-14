@@ -114,7 +114,7 @@ public class DigitalizerParametrized {
 	}
 
 	public static void main(String args[]) {
-		var frame = new JFrame("Executable Project Generator");
+		var frame = new JFrame("Digitalizer Parametrized");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridBagLayout());
 
