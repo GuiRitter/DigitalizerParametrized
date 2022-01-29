@@ -14,6 +14,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.time.OffsetDateTime;
 import java.util.IllegalFormatException;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -71,8 +72,16 @@ public class DigitalizerParametrized {
 		}
 	}
 
+	private static String replaceTimeStamp(String format) {
+		return format.replaceAll("%z", OffsetDateTime.now().toString()).replaceAll(":", "：");
+	}
+
+	private static String getFormattedFileName(JTextField outputFileNameFormatField, JSpinner outputFileNameIndexSpinner) {
+		return String.format(replaceTimeStamp(outputFileNameFormatField.getText()), outputFileNameIndexSpinner.getValue());
+	} 
+
 	private static void testFormat(JFrame frame, JTextField outputFileNameFormatField, JSpinner outputFileNameIndexSpinner) {
-		showMessageDialog(frame, String.format(outputFileNameFormatField.getText(), outputFileNameIndexSpinner.getValue()), "Info", INFORMATION_MESSAGE);
+		showMessageDialog(frame, getFormattedFileName(outputFileNameFormatField, outputFileNameIndexSpinner), "Info", INFORMATION_MESSAGE);
 	}
 
 	private static void scanImage(AtomicReference<File> file, JFrame frame, JTextField outputFileNameFormatField, JSpinner outputFileNameIndexSpinner) {
@@ -83,7 +92,7 @@ public class DigitalizerParametrized {
 				return;
 			}
 			try {
-				outputName = String.format(outputFileNameFormatField.getText(), outputFileNameIndexSpinner.getValue());
+				outputName = getFormattedFileName(outputFileNameFormatField, outputFileNameIndexSpinner);
 			} catch (IllegalFormatException ex) {
 				showMessageDialog(frame, "The format used for the output image name is invalid.", "Warning", WARNING_MESSAGE);
 				return;
@@ -131,6 +140,7 @@ public class DigitalizerParametrized {
 		), buildGBC(y++, FULL_PADDING, HALF_PADDING));
 		
 		var outputFileNameFormatField = new JTextField("%d.png");
+		outputFileNameFormatField.setToolTipText("Use %z for an ISO 8601 timestamp at file creation time.");
 
 		frame.getContentPane().add(buildLabelledComponent(
 				"Name Format",
