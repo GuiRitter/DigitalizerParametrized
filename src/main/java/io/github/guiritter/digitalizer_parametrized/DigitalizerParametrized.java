@@ -111,11 +111,11 @@ public class DigitalizerParametrized {
 			}
 			try {
 				wia4j.scan(outputFile.getAbsolutePath());
+				((BasicArrowButton) outputFileNameIndexSpinner.getComponent(0)).doClick();
 			} catch (WiaOperationException ex) {
 				ex.printStackTrace();
 				showMessageDialog(frame, ex.getMessage(), "Error", ERROR_MESSAGE);
 			}
-			((BasicArrowButton) outputFileNameIndexSpinner.getComponent(0)).doClick();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			showMessageDialog(frame, ex.getMessage(), "Error", ERROR_MESSAGE);
